@@ -1,2 +1,2 @@
 # DATABASES
-Database course of University of Cyprus
+Database project course of University of Cyprus

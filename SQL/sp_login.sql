@@ -1,53 +1,49 @@
 CREATE OR ALTER PROCEDURE sp_Login
 (
-    @Username NVARCHAR(50),
-    @Password NVARCHAR(200)
+    @Username  VARCHAR(30),
+    @Password  NVARCHAR(100)      -- PLAIN TEXT κωδικός που έγραψε ο user
 )
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @UserID INT;
+    BEGIN TRY
+        DECLARE @UserID INT;
+        DECLARE @Password_Hash VARBINARY(64);
 
-    ------------------------------------------------------------
-    -- 1) Find user by username
-    ------------------------------------------------------------
-    SELECT @UserID = User_ID
-    FROM AUTHENTICATION
-    WHERE Username = @Username;
+        ------------------------------------------------------------
+        -- 1) Hash the password provided at login
+        ------------------------------------------------------------
+        SET @Password_Hash = HASHBYTES('SHA2_512', @Password);
 
-    IF @UserID IS NULL
-    BEGIN
-        RAISERROR('Invalid username.', 16, 1);
-        RETURN;
-    END
-
-    ------------------------------------------------------------
-    -- 2) Validate password hash
-    ------------------------------------------------------------
-    IF NOT EXISTS (
-        SELECT 1
+        ------------------------------------------------------------
+        -- 2) Find the User_ID if the credentials are correct
+        ------------------------------------------------------------
+        SELECT @UserID = User_ID
         FROM AUTHENTICATION
-        WHERE User_ID = @UserID
-          AND Password_Hash = HASHBYTES('SHA2_256', @Password)
-    )
-    BEGIN
-        RAISERROR('Invalid password.', 16, 1);
-        RETURN;
-    END
+        WHERE Username = @Username
+          AND Password_Hash = @Password_Hash;
 
-    ------------------------------------------------------------
-    -- 3) Successful login → return user data + roles
-    ------------------------------------------------------------
-    SELECT 
-        U.User_ID,
-        U.First_Name,
-        U.Last_Name,
-        U.Email,
-        UT.Type_Name AS User_Role
-    FROM [USER] U
-    JOIN USER_TYPE_MAP UTM ON U.User_ID = UTM.User_ID
-    JOIN USER_TYPE UT ON UTM.User_Type_ID = UT.User_Type_ID
-    WHERE U.User_ID = @UserID;
+        IF @UserID IS NULL
+        BEGIN
+            ;THROW 91001, 'Invalid username or password.', 1;
+        END
+
+        ------------------------------------------------------------
+        -- 3) Return user information (including Type_Name)
+        ------------------------------------------------------------
+        SELECT 
+            U.User_ID,
+            U.First_Name,
+            U.Last_Name,
+            U.Email,
+            U.Type_Name
+        FROM [USER] AS U
+        WHERE U.User_ID = @UserID;
+
+    END TRY
+    BEGIN CATCH
+        THROW;
+    END CATCH;
 END;
 GO

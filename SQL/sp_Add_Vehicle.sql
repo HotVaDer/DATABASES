@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE sp_Add_Vehicle
+CREATE OR ALTER PROCEDURE sp_AddVehicle
 (
    @License_Plate VARCHAR(10),
    @Seat_Capacity INT,
@@ -6,66 +6,55 @@ CREATE OR ALTER PROCEDURE sp_Add_Vehicle
    @Trunk_Weight FLOAT,
    @Vehicle_Type VARCHAR(50),
    @Price_To_Ride FLOAT,
-   @Driver_ID INT,
+   @DriverUserID INT,
    @Region_ID INT,
    @actorID INT
 )
 AS
 BEGIN
     SET NOCOUNT ON;
+
     BEGIN TRY
         BEGIN TRANSACTION;
 
         ----------------------------------------------------------
-        -- 1. Check actor exists and has valid role
+        -- 1. Check actor exists and has permissions
         ----------------------------------------------------------
         IF NOT EXISTS (
             SELECT 1
-            FROM SYSTEM_USER
+            FROM [USER]
             WHERE User_ID = @actorID
-              AND Role IN ('Driver', 'Operator', 'Admin')
+              AND Type_Name IN ('driver', 'operator', 'admin')
         )
         BEGIN
-            RAISERROR('Unauthorized: actor does not have permissions.', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
+            ;THROW 91001, 'Unauthorized: actor has no permissions.', 1;
         END
 
         ----------------------------------------------------------
-        -- 2. Ensure the Driver exists
+        -- 2. Check that the driver is approved
         ----------------------------------------------------------
-        IF NOT EXISTS (SELECT 1 FROM DRIVER WHERE Driver_ID = @Driver_ID)
+        IF NOT EXISTS (
+            SELECT 1 FROM DRIVER
+            WHERE User_ID = @DriverUserID
+              AND Status = 'approved'
+        )
         BEGIN
-            RAISERROR('Driver does not exist.', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
+            ;THROW 91002, 'Driver is not approved.', 1;
         END
 
         ----------------------------------------------------------
-        -- 3. If actor is a Driver, must match Driver_ID
-        ----------------------------------------------------------
-        IF EXISTS (SELECT 1 FROM SYSTEM_USER WHERE User_ID = @actorID AND Role = 'Driver')
-           AND @actorID <> @Driver_ID
-        BEGIN
-            RAISERROR('Unauthorized: Drivers can only add their own vehicles.', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-
-        ----------------------------------------------------------
-        -- 4. Unique plate check
+        -- 3. Unique plate check
         ----------------------------------------------------------
         IF EXISTS (SELECT 1 FROM VEHICLE WHERE License_Plate = @License_Plate)
         BEGIN
-            RAISERROR('Plate number already exists.', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
+            ;THROW 91003, 'License plate already exists.', 1;
         END
 
         ----------------------------------------------------------
-        -- 5. Insert with status forced to PENDING
+        -- 4. Insert vehicle with pending status
         ----------------------------------------------------------
-        INSERT INTO VEHICLE (
+        INSERT INTO VEHICLE
+        (
             License_Plate,
             Seat_Capacity,
             Trunk_Space,
@@ -73,32 +62,31 @@ BEGIN
             Vehicle_Type,
             Price_To_Ride,
             Status,
-            Driver_ID,
+            User_ID,
             Region_ID
         )
-        VALUES (
+        VALUES
+        (
             @License_Plate,
             @Seat_Capacity,
             @Trunk_Space,
             @Trunk_Weight,
             @Vehicle_Type,
             @Price_To_Ride,
-            'PENDING',      
-            @Driver_ID,
+            'pending',
+            @DriverUserID,
             @Region_ID
         );
 
-        DECLARE @NewVehicleID INT = SCOPE_IDENTITY();
-
         COMMIT TRANSACTION;
 
-        SELECT @NewVehicleID AS Vehicle_ID;
-    END TRY
+        -- Since License Plate is PK, return it directly
+        SELECT @License_Plate AS License_Plate;
 
+    END TRY
     BEGIN CATCH
-        IF @@TRANCOUNT > 0
-            ROLLBACK TRANSACTION;
-        DECLARE @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();
-        RAISERROR(@ErrMsg, 16, 1);
+        IF XACT_STATE() <> 0 ROLLBACK TRANSACTION;
+        THROW;
     END CATCH
 END;
+GO

@@ -39,13 +39,13 @@ BEGIN
         IF EXISTS
         (
             SELECT 1
-            FROM DRIVER_DOCUMENT_TYPE AS DT
+            FROM DRIVER_DOC_TYPE AS DT
             WHERE NOT EXISTS
             (
                 SELECT 1
                 FROM DRIVER_DOCUMENT AS DD
                 WHERE DD.User_ID = @UserID
-                  AND DD.Document_Type_Name = DT.Name
+                  AND DD.Doc_Type_Name = DT.Name
                   AND DD.Status = 'approved'
                   AND DD.Expiry_Date >= CONVERT(date, GETDATE())
             )

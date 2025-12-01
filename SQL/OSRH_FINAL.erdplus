@@ -12,7 +12,7 @@
         "data": {
           "label": "USER",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -32,7 +32,7 @@
         "data": {
           "label": "USER_PREFERENCES",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -65,7 +65,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -88,7 +88,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -109,7 +109,7 @@
           "label": "First_Name",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -130,7 +130,7 @@
           "label": "Last_Name",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -151,7 +151,7 @@
           "label": "Birth_Date",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -172,7 +172,7 @@
           "label": "Email",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -193,7 +193,7 @@
           "label": "Gender",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -217,7 +217,7 @@
             "Composite": false
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -240,7 +240,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -261,7 +261,7 @@
           "label": "Setting_Name",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -282,7 +282,7 @@
           "label": "Setting_Value",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -301,7 +301,7 @@
         "data": {
           "label": "USER_PAYMENT_METHOD",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -325,7 +325,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -346,7 +346,7 @@
           "label": "Card_Holder_Name",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -367,7 +367,7 @@
           "label": "Last_4_Digits",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -388,7 +388,7 @@
           "label": "Card_Type",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -409,7 +409,7 @@
           "label": "Expire_Date",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -428,7 +428,7 @@
         "data": {
           "label": "GDPR_LOG",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -461,7 +461,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -484,7 +484,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -505,7 +505,7 @@
           "label": "Requested_At",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -526,7 +526,7 @@
           "label": "Approved_at",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -547,7 +547,7 @@
           "label": "Status",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -568,7 +568,7 @@
           "label": "Comments",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -587,7 +587,7 @@
         "data": {
           "label": "DRIVER_DOCUMENT",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -602,8 +602,8 @@
         "parentId": "0e81dd95-98cb-4dde-8b56-9f12b1055181",
         "type": "Attribute",
         "position": {
-          "x": 120,
-          "y": -134
+          "x": 194,
+          "y": -80
         },
         "data": {
           "label": "Driver_Document_ID",
@@ -611,7 +611,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -625,14 +625,14 @@
         "parentId": "0e81dd95-98cb-4dde-8b56-9f12b1055181",
         "type": "Attribute",
         "position": {
-          "x": 200.7462120245873,
-          "y": -87.25378797541254
+          "x": 278.7462120245873,
+          "y": -3.2537879754125356
         },
         "data": {
           "label": "Issue_Date",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -653,7 +653,7 @@
           "label": "Expiry_Date",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -674,7 +674,7 @@
           "label": "File_URL",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -695,7 +695,7 @@
           "label": "Uploaded_At",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -714,7 +714,7 @@
         "data": {
           "label": "AUTHENTICATION",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -734,7 +734,7 @@
         "data": {
           "label": "VEHICLE",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -758,7 +758,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -779,7 +779,7 @@
           "label": "Seat_Capacity",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -800,7 +800,7 @@
           "label": "Trunk_Space",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -821,7 +821,7 @@
           "label": "Trunk_weight",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -842,7 +842,7 @@
           "label": "Vehicle_Type",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -861,7 +861,7 @@
         "data": {
           "label": "VEHICLE_REQUIREMENTS",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -885,7 +885,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -906,7 +906,7 @@
           "label": "Min_Seats",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -927,7 +927,7 @@
           "label": "Max_Vehicle_Age",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -948,7 +948,7 @@
           "label": "Min_Trunk_Space",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -969,7 +969,7 @@
           "label": "Must_Be_4_Door",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -990,7 +990,7 @@
           "label": "Must_Have_Rear_Seats",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1011,7 +1011,7 @@
           "label": "Min_Trunk_Weight",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1032,7 +1032,7 @@
           "label": "Required_Vehicle_Type",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1051,7 +1051,7 @@
         "data": {
           "label": "SERVICE_TYPE",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -1085,7 +1085,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -1104,7 +1104,7 @@
         "data": {
           "label": "CHECK AGE FOR DRIVER",
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 209,
@@ -1127,7 +1127,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1148,7 +1148,7 @@
           "label": "Service_Type_Name",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1169,7 +1169,7 @@
           "label": "Description",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1188,7 +1188,7 @@
         "data": {
           "label": "TRIP",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -1212,7 +1212,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1233,7 +1233,7 @@
           "label": "Status",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1254,7 +1254,7 @@
           "label": "Request_Time",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1277,7 +1277,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1297,7 +1297,7 @@
           "label": "Password_Hash",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1316,7 +1316,7 @@
         "data": {
           "label": "GEOFENCE_REGION",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -1340,7 +1340,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1361,7 +1361,7 @@
           "label": "Name",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1382,7 +1382,7 @@
           "label": "Region_Polygon",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1401,7 +1401,7 @@
         "data": {
           "label": "BRIDGE_POINT",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -1434,7 +1434,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -1457,7 +1457,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1476,7 +1476,7 @@
         "data": {
           "label": "TRIP_SEGMENT",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -1498,7 +1498,7 @@
           "label": "Sequence_no",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1521,7 +1521,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1553,7 +1553,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -1585,7 +1585,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -1617,7 +1617,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -1636,7 +1636,7 @@
         "data": {
           "label": "TRIP_VEHICLE_MATCH",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -1660,7 +1660,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1681,7 +1681,7 @@
           "label": "Offer_Time",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1702,7 +1702,7 @@
           "label": "Repsonse_Time",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1723,7 +1723,7 @@
           "label": "Response_Status",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1755,7 +1755,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -1774,7 +1774,7 @@
         "data": {
           "label": "PAYMENT_TRANSACTION",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -1798,7 +1798,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1819,7 +1819,7 @@
           "label": "Gross_Amount",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1840,7 +1840,7 @@
           "label": "Created_At",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1861,7 +1861,7 @@
           "label": "Status",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1893,7 +1893,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -1925,7 +1925,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -1944,7 +1944,7 @@
         "data": {
           "label": "DRIVER",
           "type": "Weak",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -1966,7 +1966,7 @@
           "label": "Photo",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -1987,7 +1987,7 @@
           "label": "EU_Residence_Pass",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2019,7 +2019,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -2051,7 +2051,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -2070,7 +2070,7 @@
         "data": {
           "label": "VEHICLE_DOCUMENT",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -2092,7 +2092,7 @@
           "label": "Uploaded_At",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2115,7 +2115,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2129,14 +2129,14 @@
         "parentId": "29f2a628-cddb-44a1-9f81-1c1664511ad9",
         "type": "Attribute",
         "position": {
-          "x": 61,
-          "y": -118
+          "x": 125,
+          "y": -38
         },
         "data": {
           "label": "Expiry_Date",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2150,14 +2150,14 @@
         "parentId": "29f2a628-cddb-44a1-9f81-1c1664511ad9",
         "type": "Attribute",
         "position": {
-          "x": 134.2462120245873,
-          "y": -69.75378797541254
+          "x": 166.2462120245873,
+          "y": 24.246212024587464
         },
         "data": {
           "label": "Issue_Date",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2178,7 +2178,7 @@
           "label": "File_URL",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2210,7 +2210,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -2242,7 +2242,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -2274,7 +2274,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -2307,7 +2307,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false,
+          "isConnectable": true,
           "isIdentifying": false
         },
         "measured": {
@@ -2329,7 +2329,7 @@
           "label": "Bridge_Location",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2350,7 +2350,7 @@
           "label": "Start_Point",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2371,7 +2371,7 @@
           "label": "End_Point",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2403,7 +2403,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -2424,7 +2424,7 @@
           "label": "Price_To_Ride",
           "types": [],
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -2445,7 +2445,7 @@
           "label": "Status",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2466,7 +2466,7 @@
           "label": "Status",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2498,48 +2498,6 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
-        },
-        "measured": {
-          "width": 100,
-          "height": 50
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "d49d7d79-ae71-4cd6-b9dd-a7b1999d4ca8",
-        "parentId": "0e81dd95-98cb-4dde-8b56-9f12b1055181",
-        "type": "Attribute",
-        "position": {
-          "x": 233.7537879754127,
-          "y": -27.75378797541248
-        },
-        "data": {
-          "label": "Doc_Type",
-          "types": [],
-          "isSelected": false,
-          "isConnectable": true
-        },
-        "measured": {
-          "width": 100,
-          "height": 50
-        },
-        "selected": false,
-        "dragging": false
-      },
-      {
-        "id": "a9e8e783-f89a-4250-ab6e-0006dbb4b592",
-        "parentId": "29f2a628-cddb-44a1-9f81-1c1664511ad9",
-        "type": "Attribute",
-        "position": {
-          "x": 155.7537879754127,
-          "y": -3.7537879754124788
-        },
-        "data": {
-          "label": "Doc_Type",
-          "types": [],
-          "isSelected": false,
           "isConnectable": true
         },
         "measured": {
@@ -2561,7 +2519,7 @@
           "label": "Start_Point",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2582,7 +2540,7 @@
           "label": "End_Point",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2614,7 +2572,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -2633,7 +2591,7 @@
         "data": {
           "label": "USER_TYPE",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -2657,7 +2615,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2676,7 +2634,7 @@
         "data": {
           "label": "SERVICE_CATALOG",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -2709,7 +2667,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -2730,7 +2688,7 @@
           "label": "Available_From",
           "types": [],
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -2750,7 +2708,7 @@
           "label": "Available_to",
           "types": [],
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -2781,7 +2739,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -2813,7 +2771,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -2836,7 +2794,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2849,14 +2807,14 @@
         "parentId": "0e81dd95-98cb-4dde-8b56-9f12b1055181",
         "type": "Attribute",
         "position": {
-          "x": 19,
-          "y": -166
+          "x": 129,
+          "y": -152
         },
         "data": {
           "label": "Status",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2870,14 +2828,14 @@
         "parentId": "29f2a628-cddb-44a1-9f81-1c1664511ad9",
         "type": "Attribute",
         "position": {
-          "x": 3,
-          "y": -168
+          "x": 131,
+          "y": -122
         },
         "data": {
           "label": "Status",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -2896,7 +2854,7 @@
         "data": {
           "label": "BRIDGE_REGION_MAP",
           "type": "Weak",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -2929,7 +2887,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false,
+          "isConnectable": true,
           "isIdentifying": true
         },
         "measured": {
@@ -2962,7 +2920,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false,
+          "isConnectable": true,
           "isIdentifying": true
         },
         "measured": {
@@ -2982,7 +2940,7 @@
         "data": {
           "label": "VEHICLE_PHOTO",
           "type": "Regular",
-          "isConnectable": true,
+          "isConnectable": false,
           "isSelected": false
         },
         "measured": {
@@ -3006,7 +2964,7 @@
             "Unique": true
           },
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -3027,7 +2985,7 @@
           "label": "Photo_URL",
           "types": [],
           "isSelected": false,
-          "isConnectable": true
+          "isConnectable": false
         },
         "measured": {
           "width": 100,
@@ -3059,7 +3017,7 @@
             }
           },
           "isSelected": false,
-          "isConnectable": false
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
@@ -3090,13 +3048,158 @@
               "max": 1
             }
           },
-          "isSelected": false
+          "isSelected": false,
+          "isConnectable": true
         },
         "measured": {
           "width": 100,
           "height": 50
         },
         "selected": false
+      },
+      {
+        "id": "d6970915-d43f-432f-9105-72ec6485d9aa",
+        "type": "Entity",
+        "position": {
+          "x": 2590,
+          "y": -585
+        },
+        "data": {
+          "label": "DRIVER_DOC_TYPE",
+          "type": "Regular",
+          "isConnectable": false,
+          "isSelected": false
+        },
+        "measured": {
+          "width": 100,
+          "height": 50
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "f75dcdfb-11ea-4754-b143-330196e59511",
+        "parentId": "d6970915-d43f-432f-9105-72ec6485d9aa",
+        "type": "Attribute",
+        "position": {
+          "x": -6.429395695523604e-15,
+          "y": -105
+        },
+        "data": {
+          "label": "Doc_Type_Name",
+          "types": {
+            "Unique": true
+          },
+          "isSelected": false,
+          "isConnectable": false
+        },
+        "measured": {
+          "width": 100,
+          "height": 50
+        },
+        "selected": false
+      },
+      {
+        "id": "0644444c-a8b1-4a3a-a128-c8104e72a277",
+        "type": "Relationship",
+        "position": {
+          "x": 2567.4429697090636,
+          "y": -447.7199043686413
+        },
+        "data": {
+          "label": "Has",
+          "sourceEntityDetails": {
+            "id": "0e81dd95-98cb-4dde-8b56-9f12b1055181",
+            "exactConstraints": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          "targetEntityDetails": {
+            "id": "d6970915-d43f-432f-9105-72ec6485d9aa",
+            "exactConstraints": {
+              "min": 1
+            }
+          },
+          "isSelected": false,
+          "isConnectable": true
+        },
+        "measured": {
+          "width": 100,
+          "height": 50
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "d914c613-5365-4c2f-a898-664cfa4cc22b",
+        "type": "Entity",
+        "position": {
+          "x": 3179,
+          "y": -588
+        },
+        "data": {
+          "label": "VEHICLE_DOC_TYPE",
+          "type": "Regular",
+          "isConnectable": false,
+          "isSelected": false
+        },
+        "measured": {
+          "width": 100,
+          "height": 50
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "5511f5af-1d99-4611-89bb-de52f104c025",
+        "type": "Relationship",
+        "position": {
+          "x": 3220.5,
+          "y": -416
+        },
+        "data": {
+          "label": "Has",
+          "sourceEntityDetails": {
+            "id": "d914c613-5365-4c2f-a898-664cfa4cc22b",
+            "exactConstraints": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          "targetEntityDetails": {
+            "id": "29f2a628-cddb-44a1-9f81-1c1664511ad9",
+            "exactConstraints": {
+              "min": 1
+            }
+          },
+          "isSelected": false,
+          "isConnectable": true
+        },
+        "measured": {
+          "width": 100,
+          "height": 50
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "0fcda170-03dd-4d28-ac6e-686572d88b18",
+        "parentId": "d914c613-5365-4c2f-a898-664cfa4cc22b",
+        "type": "Attribute",
+        "position": {
+          "x": -6.429395695523604e-15,
+          "y": -105
+        },
+        "data": {
+          "label": "Doc_Type_Name",
+          "types": [],
+          "isSelected": false
+        },
+        "measured": {
+          "width": 100,
+          "height": 50
+        }
       }
     ],
     "edges": [
@@ -4115,18 +4218,6 @@
         }
       },
       {
-        "id": "bdcc02c3-e03f-4a6a-915c-e992af340032",
-        "type": "Attribute",
-        "source": "0e81dd95-98cb-4dde-8b56-9f12b1055181",
-        "target": "d49d7d79-ae71-4cd6-b9dd-a7b1999d4ca8"
-      },
-      {
-        "id": "3a0814cd-efd8-410f-a46c-88cf33c8fa6c",
-        "type": "Attribute",
-        "source": "29f2a628-cddb-44a1-9f81-1c1664511ad9",
-        "target": "a9e8e783-f89a-4250-ab6e-0006dbb4b592"
-      },
-      {
         "id": "1bb15088-aa12-4f86-9a49-78b3fd633c3c",
         "type": "Attribute",
         "source": "5e67412a-151a-4d5e-a8d6-9dc1cd7c4602",
@@ -4412,11 +4503,73 @@
             "max": 1
           }
         }
+      },
+      {
+        "id": "db0eb940-524b-4bf5-ac2e-ded02041ce91",
+        "type": "Attribute",
+        "source": "d6970915-d43f-432f-9105-72ec6485d9aa",
+        "target": "f75dcdfb-11ea-4754-b143-330196e59511"
+      },
+      {
+        "id": "0644444c-a8b1-4a3a-a128-c8104e72a277->0e81dd95-98cb-4dde-8b56-9f12b1055181;0e81dd95-98cb-4dde-8b56-9f12b1055181->d6970915-d43f-432f-9105-72ec6485d9aa",
+        "type": "Relationship",
+        "source": "0644444c-a8b1-4a3a-a128-c8104e72a277",
+        "target": "0e81dd95-98cb-4dde-8b56-9f12b1055181",
+        "data": {
+          "id": "0644444c-a8b1-4a3a-a128-c8104e72a277->0e81dd95-98cb-4dde-8b56-9f12b1055181",
+          "exactConstraints": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      },
+      {
+        "id": "0644444c-a8b1-4a3a-a128-c8104e72a277->d6970915-d43f-432f-9105-72ec6485d9aa;0e81dd95-98cb-4dde-8b56-9f12b1055181->d6970915-d43f-432f-9105-72ec6485d9aa",
+        "type": "Relationship",
+        "source": "0644444c-a8b1-4a3a-a128-c8104e72a277",
+        "target": "d6970915-d43f-432f-9105-72ec6485d9aa",
+        "data": {
+          "id": "0644444c-a8b1-4a3a-a128-c8104e72a277->d6970915-d43f-432f-9105-72ec6485d9aa",
+          "exactConstraints": {
+            "min": 1
+          }
+        }
+      },
+      {
+        "id": "5511f5af-1d99-4611-89bb-de52f104c025->d914c613-5365-4c2f-a898-664cfa4cc22b;d914c613-5365-4c2f-a898-664cfa4cc22b->29f2a628-cddb-44a1-9f81-1c1664511ad9",
+        "type": "Relationship",
+        "source": "5511f5af-1d99-4611-89bb-de52f104c025",
+        "target": "d914c613-5365-4c2f-a898-664cfa4cc22b",
+        "data": {
+          "id": "5511f5af-1d99-4611-89bb-de52f104c025->d914c613-5365-4c2f-a898-664cfa4cc22b",
+          "exactConstraints": {
+            "min": 1
+          }
+        }
+      },
+      {
+        "id": "5511f5af-1d99-4611-89bb-de52f104c025->29f2a628-cddb-44a1-9f81-1c1664511ad9;d914c613-5365-4c2f-a898-664cfa4cc22b->29f2a628-cddb-44a1-9f81-1c1664511ad9",
+        "type": "Relationship",
+        "source": "5511f5af-1d99-4611-89bb-de52f104c025",
+        "target": "29f2a628-cddb-44a1-9f81-1c1664511ad9",
+        "data": {
+          "id": "5511f5af-1d99-4611-89bb-de52f104c025->29f2a628-cddb-44a1-9f81-1c1664511ad9",
+          "exactConstraints": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      },
+      {
+        "id": "10336296-0c19-4146-9ae7-4251ae54c0b0",
+        "type": "Attribute",
+        "source": "d914c613-5365-4c2f-a898-664cfa4cc22b",
+        "target": "0fcda170-03dd-4d28-ac6e-686572d88b18"
       }
     ],
     "viewport": {
-      "x": -704.3776189764267,
-      "y": 285.76195165758566,
+      "x": -680.6276189764267,
+      "y": 531.7619516575857,
       "zoom": 0.5
     }
   },
@@ -4428,5 +4581,5 @@
     "id": 71052
   },
   "id": 171352,
-  "updatedAtTimestamp": 1764444441
+  "updatedAtTimestamp": 1764500217
 }

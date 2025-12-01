@@ -1,4 +1,3 @@
-CREATE OR ALTER PROCEDURE sp_Update_User
 CREATE OR ALTER PROCEDURE sp_UpdateUser
 (
     @UserID        INT,
@@ -41,6 +40,7 @@ BEGIN
             Birth_Date = COALESCE(@Birth_Date, Birth_Date),
             Email      = COALESCE(@Email, Email),
             Address    = COALESCE(@Address, Address),
+            Gender     = COALESCE(@Gender, Gender)
         WHERE User_ID = @UserID;
         COMMIT TRANSACTION;
     

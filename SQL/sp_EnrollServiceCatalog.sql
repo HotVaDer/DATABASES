@@ -1,10 +1,10 @@
 CREATE OR ALTER PROCEDURE sp_EnrollServiceCatalog
 (
-    @UserID         INT,
-    @License_Plate  VARCHAR(10),
-    @Service_Type_ID INT,
-    @Available_From DATETIME,
-    @Available_To   DATETIME
+    @UserID             INT,
+    @License_Plate      VARCHAR(10),
+    @Service_Type_Name  VARCHAR(50),
+    @Available_From     DATETIME,
+    @Available_To       DATETIME
 )
 AS
 BEGIN
@@ -70,93 +70,64 @@ BEGIN
         END
 
         ------------------------------------------------------------
-        -- 3) Το service type πρέπει να υπάρχει
+        -- 3) Βρίσκουμε το Service_Type_ID από το Service_Type_Name
         ------------------------------------------------------------
-        IF NOT EXISTS (
-            SELECT 1
-            FROM SERVICE_TYPE
-            WHERE Service_Type_ID = @Service_Type_ID
-        )
+        DECLARE @Service_Type_ID INT;
+
+        SELECT @Service_Type_ID = Service_Type_ID
+        FROM SERVICE_TYPE
+        WHERE Service_Type_Name = @Service_Type_Name;
+
+        IF @Service_Type_ID IS NULL
         BEGIN
             ;THROW 97005, 'Service type does not exist.', 1;
         END
 
         ------------------------------------------------------------
-        -- 4) Παίρνουμε τα vehicle requirements για το service
-        --    (υποθέτουμε 1 row ανά Service_Type_ID)
+        -- 4) Ελέγχουμε αν υπάρχει ΕΣΤΩ ΕΝΑ requirement set
+        --    που να καλύπτεται από το όχημα
+        --
+        --    ΣΗΜΕΙΩΣΗ: Στο schema του VEHICLE δεν έχουμε πεδία
+        --    για πόρτες, πίσω καθίσματα, age, οπότε ελέγχουμε
+        --    αυτά που μπορούμε: Min_Seats, Min_Trunk_Space,
+        --    Min_Trunk_Weight, Required_Vehicle_Type.
         ------------------------------------------------------------
-        DECLARE
-            @Min_Seats           INT,
-            @Max_Vehicle_Age     INT,
-            @Min_Trunk_Space     FLOAT,
-            @Min_Trunk_Weight    FLOAT,
-            @Must_Be_4_Door      BINARY(1),
-            @Must_Have_Rear_Seats BINARY(1),
-            @Required_Vehicle_Type VARCHAR(50);
-
-        SELECT 
-            @Min_Seats            = Min_Seats,
-            @Max_Vehicle_Age      = Max_Vehicle_Age,
-            @Min_Trunk_Space      = Min_Trunk_Space,
-            @Min_Trunk_Weight     = Min_Trunk_Weight,
-            @Must_Be_4_Door       = Must_Be_4_Door,
-            @Must_Have_Rear_Seats = Must_Have_Rear_Seats,
-            @Required_Vehicle_Type = Required_Vehicle_Type
-        FROM VEHICLE_REQUIREMENTS
-        WHERE Service_Type_ID = @Service_Type_ID;
-
-        IF @Min_Seats IS NULL
+        IF NOT EXISTS
+        (
+            SELECT 1
+            FROM VEHICLE_REQUIREMENTS AS R
+            WHERE R.Service_Type_ID = @Service_Type_ID
+              AND (@Seat_Capacity >= R.Min_Seats)
+              AND (@Trunk_Space   >= R.Min_Trunk_Space)
+              AND (@Trunk_Weight  >= R.Min_Trunk_Weight)
+              AND (
+                    R.Required_Vehicle_Type IS NULL
+                 OR R.Required_Vehicle_Type = ''
+                 OR R.Required_Vehicle_Type = @Vehicle_Type
+              )
+        )
         BEGIN
-            ;THROW 97006, 'No vehicle requirements defined for this service type.', 1;
+            ;THROW 97006, 'Vehicle does not satisfy any requirement set for this service type.', 1;
         END
 
         ------------------------------------------------------------
-        -- 5) Έλεγχος που ΜΠΟΡΟΥΜΕ να κάνουμε με βάση το schema:
-        --    seat capacity, trunk space, trunk weight, vehicle type
-        --    (Max_Vehicle_Age, doors, rear seats χρειάζονται extra πεδία στο VEHICLE)
-        ------------------------------------------------------------
-        IF @Seat_Capacity < @Min_Seats
-        BEGIN
-            ;THROW 97007, 'Vehicle does not meet minimum seat capacity requirement.', 1;
-        END
-
-        IF @Trunk_Space < @Min_Trunk_Space
-        BEGIN
-            ;THROW 97008, 'Vehicle does not meet minimum trunk space requirement.', 1;
-        END
-
-        IF @Trunk_Weight < @Min_Trunk_Weight
-        BEGIN
-            ;THROW 97009, 'Vehicle does not meet minimum trunk weight requirement.', 1;
-        END
-
-        IF @Required_Vehicle_Type IS NOT NULL 
-           AND @Required_Vehicle_Type <> ''
-           AND @Vehicle_Type <> @Required_Vehicle_Type
-        BEGIN
-            ;THROW 97010, 'Vehicle type does not match required vehicle type for this service.', 1;
-        END
-
-        ------------------------------------------------------------
-        -- 6) (Προαιρετικό) Έλεγχος για διπλή εγγραφή στο ίδιο slot
-        --    Π.χ. να μην έχει ήδη καταχώρηση ο driver με το ίδιο όχημα
-        --    και ίδιο service στο ίδιο χρονικό διάστημα
+        -- 5) (Προαιρετικό) Έλεγχος για διπλή εγγραφή στο ίδιο slot
         ------------------------------------------------------------
         IF EXISTS (
             SELECT 1
             FROM SERVICE_CATALOG AS SC
-            WHERE SC.User_ID        = @UserID
-              AND SC.License_Plate  = @License_Plate
+            WHERE SC.User_ID         = @UserID
+              AND SC.License_Plate   = @License_Plate
               AND SC.Service_Type_ID = @Service_Type_ID
-              AND SC.Available_From = @Available_From
-              AND SC.Available_To   = @Available_To
+              AND SC.Available_From  = @Available_From
+              AND SC.Available_To    = @Available_To
         )
         BEGIN
-            ;THROW 97011, 'This vehicle is already enrolled for this service in the given time slot.', 1;
+            ;THROW 97007, 'This vehicle is already enrolled for this service in the given time slot.', 1;
         END
 
         ------------------------------------------------------------
-        -- 7) Εγγραφή στο SERVICE_CATALOG
+        -- 6) Εγγραφή στο SERVICE_CATALOG
         ------------------------------------------------------------
         INSERT INTO SERVICE_CATALOG
         (
@@ -181,6 +152,5 @@ BEGIN
     BEGIN CATCH
         THROW;
     END CATCH;
-
 END;
 GO

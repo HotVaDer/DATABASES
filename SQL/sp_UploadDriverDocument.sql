@@ -1,10 +1,10 @@
 CREATE OR ALTER PROCEDURE sp_SubmitDriverDocument
 (
-    @UserID             INT,
-    @Document_Type_Name VARCHAR(50),
-    @Issue_Date         DATE,
-    @Expiry_Date        DATE,
-    @File_Data          VARBINARY(255)
+    @UserID        INT,
+    @Doc_Type_Name VARCHAR(50),
+    @Issue_Date    DATE,
+    @Expiry_Date   DATE,
+    @File_Data     VARBINARY(255)
 )
 AS
 BEGIN
@@ -50,8 +50,8 @@ BEGIN
         ------------------------------------------------------------
         IF NOT EXISTS (
             SELECT 1
-            FROM DRIVER_DOCUMENT_TYPE
-            WHERE Name = @Document_Type_Name
+            FROM DRIVER_DOC_TYPE
+            WHERE Doc_Type_Name = @Doc_Type_Name
         )
         BEGIN
             ;THROW 92002, 'Invalid document type.', 1;
@@ -66,7 +66,7 @@ BEGIN
             Expiry_Date,
             Issue_Date,
             Uploaded_At,
-            Document_Type_Name,
+            Doc_Type_Name,
             File_Data,
             User_ID
         )
@@ -76,7 +76,7 @@ BEGIN
             @Expiry_Date,
             @Issue_Date,
             GETDATE(),
-            @Document_Type_Name,
+            @Doc_Type_Name,
             @File_Data,
             @UserID
         );

@@ -9,7 +9,7 @@ BEGIN
     BEGIN TRY
 
         DECLARE @UserID INT;
-        DECLARE @Document_Type_Name VARCHAR(50);
+        DECLARE @Doc_Type_Name VARCHAR(50);
         DECLARE @CurrentStatus VARCHAR(50);
 
         ------------------------------------------------------------
@@ -17,7 +17,7 @@ BEGIN
         ------------------------------------------------------------
         SELECT 
             @UserID = User_ID,
-            @Document_Type_Name = Document_Type_Name,
+            @Doc_Type_Name = Doc_Type_Name,
             @CurrentStatus = Status
         FROM DRIVER_DOCUMENT
         WHERE Driver_Document_ID = @Driver_Document_ID;
@@ -35,20 +35,9 @@ BEGIN
             ;THROW 93002, 'Document cannot be approved in its current status.', 1;
         END
 
-        ------------------------------------------------------------
-        -- 3) Μαρκάρουμε ως replaced οποιαδήποτε παλιά approved document
-        --    του ίδιου τύπου (για καθαρότητα — optional)
-        ------------------------------------------------------------
-        UPDATE DRIVER_DOCUMENT
-        SET Status = 'replaced'
-        WHERE User_ID = @UserID
-          AND Document_Type_Name = @Document_Type_Name
-          AND Status = 'approved'
-          AND Driver_Document_ID <> @Driver_Document_ID;
-
-        ------------------------------------------------------------
-        -- 4) Κάνουμε approved το νέο document
-        ------------------------------------------------------------
+                ------------------------------------------------------------
+                -- 3) Κάνουμε approved το νέο document (κρατάμε τα παλιά ως έχουν)
+                ------------------------------------------------------------
         UPDATE DRIVER_DOCUMENT
         SET Status = 'approved'
         WHERE Driver_Document_ID = @Driver_Document_ID;

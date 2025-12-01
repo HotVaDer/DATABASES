@@ -61,6 +61,10 @@ BEGIN
         SET Status = 'approved'
         WHERE User_ID = @UserID;
 
+        UPDATE [USER]
+        SET Type_Name = 'driver'
+        WHERE User_ID = @UserID;
+
         ------------------------------------------------------------
         -- 5) Επιτυχία
         ------------------------------------------------------------

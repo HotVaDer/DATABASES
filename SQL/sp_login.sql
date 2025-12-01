@@ -8,6 +8,7 @@ BEGIN
     SET NOCOUNT ON;
 
     BEGIN TRY
+        BEGIN TRANSACTION;
         DECLARE @UserID INT;
         DECLARE @Password_Hash VARBINARY(64);
 
@@ -41,8 +42,12 @@ BEGIN
         FROM [USER] AS U
         WHERE U.User_ID = @UserID;
 
+        COMMIT TRANSACTION;
+
     END TRY
     BEGIN CATCH
+        IF XACT_STATE() <> 0
+            ROLLBACK TRANSACTION;
         THROW;
     END CATCH;
 END;

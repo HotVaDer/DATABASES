@@ -1,67 +1,63 @@
 CREATE OR ALTER PROCEDURE sp_Add_VehicleDoc
 (
-    @License_Plate VARCHAR(10),
-    @Document_Type VARCHAR(50),
-    @Document_File VARBINARY(MAX),
-    @Issue_Date DATE,
-    @Expiry_Date DATE,
-    @actorID INT
+    @License_Plate  VARCHAR(10),
+    @Doc_Type_Name  VARCHAR(50),
+    @File_Data      VARBINARY(MAX),
+    @Issue_Date     DATE,
+    @Expiry_Date    DATE,
+    @ActorID        INT
 )
 AS
 BEGIN
     SET NOCOUNT ON;
 
     BEGIN TRY
-        BEGIN TRANSACTION;
 
         ----------------------------------------------------------
-        -- 1. Actor must be a Driver
-        ----------------------------------------------------------
-        IF NOT EXISTS (
-            SELECT 1
-            FROM DRIVER
-            WHERE User_ID = @actorID
-        )
-        BEGIN
-            RAISERROR('Unauthorized: Only drivers can upload vehicle documents.', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-
-
-        ----------------------------------------------------------
-        -- 2. Ensure vehicle exists
+        -- 1) Actor must be a Driver
         ----------------------------------------------------------
         IF NOT EXISTS (
-            SELECT 1
-            FROM VEHICLE
-            WHERE License_Plate = @License_Plate
+            SELECT 1 FROM DRIVER WHERE User_ID = @ActorID
         )
         BEGIN
-            RAISERROR('Vehicle does not exist.', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
+            ;THROW 94001, 'Unauthorized: Only drivers can upload vehicle documents.', 1;
         END
 
+        ----------------------------------------------------------
+        -- 2) Ensure vehicle exists
+        ----------------------------------------------------------
+        IF NOT EXISTS (
+            SELECT 1 FROM VEHICLE WHERE License_Plate = @License_Plate
+        )
+        BEGIN
+            ;THROW 94002, 'Vehicle does not exist.', 1;
+        END
 
         ----------------------------------------------------------
-        -- 3. Ensure the driver owns this vehicle
+        -- 3) Ensure the driver owns this vehicle
         ----------------------------------------------------------
         IF NOT EXISTS (
             SELECT 1
             FROM VEHICLE V
             WHERE V.License_Plate = @License_Plate
-              AND V.Driver_ID = @actorID
+              AND V.User_ID = @ActorID
         )
         BEGIN
-            RAISERROR('Unauthorized: Driver can only upload documents for their own vehicle.', 16, 1);
-            ROLLBACK TRANSACTION;
-            RETURN;
+            ;THROW 94003, 'Unauthorized: Driver can only upload documents for their own vehicle.', 1;
         END
 
+        ----------------------------------------------------------
+        -- 4) Validate document type exists
+        ----------------------------------------------------------
+        IF NOT EXISTS (
+            SELECT 1 FROM VEHICLE_DOC_TYPE WHERE Doc_Type_Name = @Doc_Type_Name
+        )
+        BEGIN
+            ;THROW 94004, 'Invalid vehicle document type.', 1;
+        END
 
         ----------------------------------------------------------
-        -- 4. Insert new Vehicle Document
+        -- 5) Insert new Vehicle Document as pending
         ----------------------------------------------------------
         INSERT INTO VEHICLE_DOCUMENT
         (
@@ -69,31 +65,26 @@ BEGIN
             Expiry_Date,
             Issue_Date,
             Uploaded_At,
-            Doc_Type,
-            File_URL,
-            License_Plate
+            File_Data,
+            License_Plate,
+            Doc_Type_Name
         )
         VALUES
         (
-            'PENDING',
+            'pending',
             @Expiry_Date,
             @Issue_Date,
             GETDATE(),
-            @Document_Type,
-            @Document_File,
-            @License_Plate
+            @File_Data,
+            @License_Plate,
+            @Doc_Type_Name
         );
 
+        SELECT 'Vehicle document submitted successfully.' AS Result;
 
-        COMMIT TRANSACTION;
     END TRY
-
     BEGIN CATCH
-        IF @@TRANCOUNT > 0
-            ROLLBACK TRANSACTION;
-
-        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
-        RAISERROR(@ErrorMessage, 16, 1);
+        THROW;
     END CATCH
 END;
 GO

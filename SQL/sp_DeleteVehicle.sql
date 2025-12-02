@@ -20,10 +20,10 @@ BEGIN
         WHERE User_ID = @actorID;
 
         IF @actorRole IS NULL
-            ;THROW 94001, 'Actor does not exist.', 1;
+            THROW 94001, 'Actor does not exist.', 1;
 
         IF @actorRole NOT IN ('driver','operator','admin')
-            ;THROW 94002, 'Actor not authorized.', 1;
+            THROW 94002, 'Actor not authorized.', 1;
 
 
         ----------------------------------------------------------
@@ -36,14 +36,14 @@ BEGIN
         WHERE License_Plate = @License_Plate;
 
         IF @OwnerID IS NULL
-            ;THROW 94003, 'Vehicle does not exist.', 1;
+            THROW 94003, 'Vehicle does not exist.', 1;
 
 
         ----------------------------------------------------------
         -- 3. Driver can delete ONLY own vehicle
         ----------------------------------------------------------
         IF (@actorRole = 'driver' AND @actorID <> @OwnerID)
-            ;THROW 94004, 'Driver cannot modify other user vehicles.', 1;
+            THROW 94004, 'Driver cannot modify other user vehicles.', 1;
 
 
         ----------------------------------------------------------

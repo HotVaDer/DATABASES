@@ -62,7 +62,7 @@ def create_artists() -> list[dict[str,str]]:
     #json.dump(artists, open('data/artists.json', 'w'), indent=4)
     return artists
     
-def create_bands() -> list[dict[str,str]]:
+def create_bands(artists) -> list[dict[str,str]]:
     bands = []
     for i in range(1,19):
         band_name = fake.color_name() + ' ' + fake.word()
@@ -200,7 +200,7 @@ subgenres = [
 ]
 
 artists = create_artists()
-bands = create_bands()
+bands = create_bands(artists)
 act=create_act(artists,bands)
 band_members=create_band_members(bands,artists)
 actgenres=create_act_genres(act,genres)

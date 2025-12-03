@@ -7,7 +7,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     exit;
 }
 
-$name = $_SESSION['name'] ?? "Passenger";
+$name = $_SESSION['name'] ?? "Operator";
 
 $server = "127.0.0.1";
 $connectionOptions = [
@@ -21,7 +21,7 @@ $connectionOptions = [
 $conn = sqlsrv_connect($server, $connectionOptions);
 
 if (!$conn) {
-    die("Could not load services.");
+    die("Could not load operator dashboard.");
 }
 ?>
 
@@ -29,7 +29,7 @@ if (!$conn) {
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Passenger Dashboard</title>
+<title>Operator Dashboard</title>
 
 <style>
     body {
@@ -37,7 +37,8 @@ if (!$conn) {
         padding: 0;
         font-family: Arial, sans-serif;
         color: white;
-        background: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2065') no-repeat center center fixed;
+        background: url('https://images.unsplash.com/photo-1493238792000-8113da705763?q=80&w=2070')
+            no-repeat center center fixed;
         background-size: cover;
     }
 
@@ -86,6 +87,10 @@ if (!$conn) {
         text-decoration: none;
         font-weight: bold;
     }
+
+    .btn:hover {
+        background: #dcdcdc;
+    }
 </style>
 
 </head>
@@ -93,29 +98,46 @@ if (!$conn) {
 <body>
 
 <div class="overlay">
-    <div class="header">Welcome, <?= htmlspecialchars($name) ?> </div>
-    <div class="sub">Choose a ride service</div>
+    <div class="header">Welcome, <?= htmlspecialchars($name) ?> 👋</div>
+    <div class="sub">Operator Control Panel</div>
 
     <div class="container">
 
-        <?php
-        $sql = "SELECT Service_Type_ID, Service_Type_Name, Description FROM SERVICE_TYPE";
-        $stmt = sqlsrv_query($conn, $sql);
+        <!-- Manage Users -->
+        <div class="card">
+            <div class="title">Manage Users</div>
+            <div class="desc">View, edit, or verify platform users.</div>
+            <a class="btn" href="operator_users.php">Open</a>
+        </div>
 
-        while ($s = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-            echo "
-            <div class='card'>
-                <div class='title'>{$s['Service_Type_Name']}</div>
-                <div class='desc'>{$s['Description']}</div>
-                <a class='btn' href='create_trip.php?service={$s['Service_Type_ID']}'>Select</a>
-            </div>";
-        }
-        ?>
-         <div class="card">
+        <!-- Monitor Trips -->
+        <div class="card">
+            <div class="title">Monitor Trips</div>
+            <div class="desc">Track all active and pending trips in the system.</div>
+            <a class="btn" href="operator_trips.php">View</a>
+        </div>
+
+        <!-- Geofence / Region Tools -->
+        <div class="card">
+            <div class="title">Geofence Tools</div>
+            <div class="desc">Edit regions, service areas, and bridge points.</div>
+            <a class="btn" href="operator_geofence.php">Manage</a>
+        </div>
+
+        <!-- Service Types -->
+        <div class="card">
+            <div class="title">Service Types</div>
+            <div class="desc">Modify service categories and descriptions.</div>
+            <a class="btn" href="operator_services.php">Modify</a>
+        </div>
+
+        <!-- Logout -->
+        <div class="card">
             <div class="title">Logout</div>
             <div class="desc">Sign out safely from the operator dashboard.</div>
             <a class="btn" href="logout.php">Logout</a>
         </div>
+
     </div>
 </div>
 

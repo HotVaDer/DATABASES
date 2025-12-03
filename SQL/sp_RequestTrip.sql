@@ -2,26 +2,33 @@ CREATE OR ALTER PROCEDURE sp_RequestTrip
 (
     @User_ID            INT,
     @Service_Type_Name  VARCHAR(50),
-    @Start_Point        geography,
-    @End_Point          geography
+
+    @Start_Lat          FLOAT,
+    @Start_Lon          FLOAT,
+    @End_Lat            FLOAT,
+    @End_Lon            FLOAT
 )
 AS
 BEGIN
     SET NOCOUNT ON;
 
+    DECLARE @Service_Type_ID INT;
+    DECLARE @Trip_ID INT;
+    DECLARE @ErrMsg VARCHAR(300);
+    DECLARE @Start_Point GEOGRAPHY;
+    DECLARE @End_Point GEOGRAPHY;
+
     BEGIN TRY
         BEGIN TRANSACTION;
-        DECLARE @Service_Type_ID INT;
-        DECLARE @Trip_ID INT;
 
         ------------------------------------------------------------
         -- 1) Validate user exists
         ------------------------------------------------------------
-        IF NOT EXISTS (
-            SELECT 1 FROM [USER] WHERE User_ID = @User_ID
-        )
+        IF NOT EXISTS (SELECT 1 FROM [USER] WHERE User_ID = @User_ID)
         BEGIN
-            ;THROW 96001, 'User does not exist.', 1;
+            ROLLBACK TRAN;
+            SELECT 0 AS Success, 'User does not exist.' AS Message;
+            RETURN;
         END
 
         ------------------------------------------------------------
@@ -33,30 +40,36 @@ BEGIN
 
         IF @Service_Type_ID IS NULL
         BEGIN
-            ;THROW 96002, 'Invalid service type.', 1;
+            ROLLBACK TRAN;
+            SELECT 0 AS Success, 'Invalid service type.' AS Message;
+            RETURN;
         END
 
         ------------------------------------------------------------
-        -- 3) Validate geography inputs
+        -- 3) Validate float coordinates
         ------------------------------------------------------------
-        IF @Start_Point IS NULL OR @End_Point IS NULL
+        IF @Start_Lat IS NULL OR @Start_Lon IS NULL 
+           OR @End_Lat IS NULL OR @End_Lon IS NULL
         BEGIN
-            ;THROW 96003, 'Start and end points are required.', 1;
+            ROLLBACK TRAN;
+            SELECT 0 AS Success, 'Start and end coordinates are required.' AS Message;
+            RETURN;
         END
 
-        IF @Start_Point.STSrid <> 4326 OR @End_Point.STSrid <> 4326
-        BEGIN
-            ;THROW 96004, 'Geography SRID must be 4326 (WGS 84).', 1;
-        END
+        -- Build GEOGRAPHY points
+        SET @Start_Point = geography::Point(@Start_Lat, @Start_Lon, 4326);
+        SET @End_Point   = geography::Point(@End_Lat,  @End_Lon,  4326);
 
         ------------------------------------------------------------
-        -- 4) OPTIONAL: Ensure user has a payment method
+        -- 4) Require payment method
         ------------------------------------------------------------
         IF NOT EXISTS (
             SELECT 1 FROM USER_PAYMENT_METHOD WHERE User_ID = @User_ID
         )
         BEGIN
-            ;THROW 96005, 'A valid payment method is required to request a trip.', 1;
+            ROLLBACK TRAN;
+            SELECT 0 AS Success, 'A valid payment method is required.' AS Message;
+            RETURN;
         END
 
         ------------------------------------------------------------
@@ -83,11 +96,25 @@ BEGIN
 
         SET @Trip_ID = SCOPE_IDENTITY();
 
-        SELECT @Trip_ID AS Trip_ID, 'Trip requested successfully.' AS Result;
+        COMMIT TRAN;
+
+        SELECT 
+            1 AS Success,
+            'Trip requested successfully.' AS Message,
+            @Trip_ID AS Trip_ID;
 
     END TRY
     BEGIN CATCH
-        THROW;
-    END CATCH
+
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRAN;
+
+        SET @ErrMsg = ERROR_MESSAGE();
+
+        SELECT 
+            0 AS Success,
+            @ErrMsg AS Message;
+
+    END CATCH;
 END;
 GO

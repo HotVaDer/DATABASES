@@ -10,23 +10,46 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
+    DECLARE @Payment_Method_ID INT;
+
     BEGIN TRY
         BEGIN TRANSACTION;
 
         ------------------------------------------------------------
-        -- 1) Ensure user exists
+        -- 1) Check if user exists
         ------------------------------------------------------------
         IF NOT EXISTS (SELECT 1 FROM [USER] WHERE User_ID = @User_ID)
-            THROW 98001, 'User does not exist.', 1;
+        BEGIN
+            ROLLBACK TRANSACTION;
+            SELECT 
+                Success = 0,
+                Message = 'User does not exist.',
+                Payment_Method_ID = NULL;
+            RETURN;
+        END
 
         ------------------------------------------------------------
         -- 2) Validate card data
         ------------------------------------------------------------
         IF LEN(@Last_4_Digits) <> 4 OR @Last_4_Digits LIKE '%[^0-9]%'
-            THROW 98002, 'Last 4 digits must be numeric.', 1;
+        BEGIN
+            ROLLBACK TRANSACTION;
+            SELECT 
+                Success = 0,
+                Message = 'Last 4 digits must be numeric.',
+                Payment_Method_ID = NULL;
+            RETURN;
+        END
 
         IF @Expiry_Date <= CONVERT(date, GETDATE())
-            THROW 98003, 'Card expiry date must be in the future.', 1;
+        BEGIN
+            ROLLBACK TRANSACTION;
+            SELECT 
+                Success = 0,
+                Message = 'Card expiry date must be in the future.',
+                Payment_Method_ID = NULL;
+            RETURN;
+        END
 
         ------------------------------------------------------------
         -- 3) Insert payment method
@@ -48,28 +71,28 @@ BEGIN
             @User_ID
         );
 
-        DECLARE @Payment_Method_ID INT = SCOPE_IDENTITY();
-
-        ------------------------------------------------------------
-        -- 4) Return inserted record
-        ------------------------------------------------------------
-        SELECT 
-            Payment_Method_ID,
-            Card_Holder_Name,
-            Last_4_Digits,
-            Card_Type,
-            Expiry_Date,
-            User_ID
-        FROM USER_PAYMENT_METHOD
-        WHERE Payment_Method_ID = @Payment_Method_ID;
+        SET @Payment_Method_ID = SCOPE_IDENTITY();
 
         COMMIT TRANSACTION;
 
+        ------------------------------------------------------------
+        -- 4) Return success
+        ------------------------------------------------------------
+        SELECT 
+            Success = 1,
+            Message = 'Payment method added.',
+            Payment_Method_ID = @Payment_Method_ID;
+
     END TRY
     BEGIN CATCH
+
         IF XACT_STATE() <> 0
             ROLLBACK TRANSACTION;
-        THROW;
-    END CATCH;
+
+        SELECT 
+            Success = 0,
+            Message = ERROR_MESSAGE(),
+            Payment_Method_ID = NULL;
+    END CATCH
 END;
 GO

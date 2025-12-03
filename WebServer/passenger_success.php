@@ -116,6 +116,11 @@ if (!$conn) {
             <div class="desc">Sign out safely from the operator dashboard.</div>
             <a class="btn" href="logout.php">Logout</a>
         </div>
+         <div class="card">
+            <div class="title">Add Payment Method</div>
+            <div class="desc">Add a new payment method to your account.</div>
+            <a class="btn" href="add_payment_method.php">Add Payment Method</a>
+        </div>
     </div>
 </div>
 

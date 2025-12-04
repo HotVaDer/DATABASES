@@ -121,6 +121,11 @@ if (!$conn) {
             <div class="desc">Add a new payment method to your account.</div>
             <a class="btn" href="add_payment_method.php">Add Payment Method</a>
         </div>
+            <div class="card">
+            <div class="title">Become A Driver</div>
+            <div class="desc">Submit a request to become a driver.</div>
+            <a class="btn" href="become_driver.php">Become A Driver</a>
+        </div>
     </div>
 </div>
 

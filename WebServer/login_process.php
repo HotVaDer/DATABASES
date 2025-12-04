@@ -37,10 +37,11 @@ if ($username === '' || $password === '') {
 // ---------------------------
 $sql = "{ CALL sp_Login(?) }";
 $params = [$username];
+
 $stmt = sqlsrv_query($conn, $sql, $params);
 
 if ($stmt === false) {
-    $_SESSION['login_error'] = "Server error while logging in.";
+    $_SESSION['login_error'] = "Server error while logging in (SP failed).";
     header("Location: login.php");
     exit;
 }
@@ -48,8 +49,8 @@ if ($stmt === false) {
 $user = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
 
 // USER NOT FOUND
-if (!$user || $user['Success'] == 0) {
-    $_SESSION['login_error'] = "User Not found.";
+if (!$user || ($user['Success'] ?? 0) == 0) {
+    $_SESSION['login_error'] = "User not found.";
     header("Location: login.php");
     exit;
 }
@@ -69,22 +70,30 @@ if (!password_verify($password, $storedHash)) {
 // SUCCESS LOGIN
 // ---------------------------
 session_regenerate_id(true);
-$_SESSION['logged_in'] = true;
-$_SESSION['user_id']   = $user['User_ID'];
-$_SESSION['name']      = $user['First_Name'];
-$_SESSION['type']      = strtolower($user['Type_Name']);
 
+$_SESSION['logged_in']  = true;
+$_SESSION['user_id']    = $user['User_ID'];
+$_SESSION['name']       = $user['First_Name'];
+
+// FIXED: USE CONSISTENT KEY NAME
+$_SESSION['type_name']  = strtolower($user['Type_Name']);
+
+// ---------------------------
 // REDIRECT BY ROLE
-switch ($_SESSION['type']) {
-    case "driver":
-        header("Location: driver_success.php");
-        break;
+// ---------------------------
+switch ($_SESSION['type_name']) {
     case "admin":
         header("Location: admin_success.php");
         break;
+
+    case "driver":
+        header("Location: driver_success.php");
+        break;
+
     case "operator":
         header("Location: operator_success.php");
         break;
+
     default:
         header("Location: passenger_success.php");
         break;

@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE sp_AddPaymentMethod
+CREATE   PROCEDURE sp_AddPaymentMethod
 (
     @User_ID            INT,
     @Card_Holder_Name   VARCHAR(100),
@@ -95,4 +95,4 @@ BEGIN
             Payment_Method_ID = NULL;
     END CATCH
 END;
-GO
+

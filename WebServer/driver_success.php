@@ -104,14 +104,14 @@ if (!$conn) {
         <div class="card">
             <div class="title">View Assigned Trips</div>
             <div class="desc">Check upcoming and active trips assigned to you.</div>
-            <a class="btn" href="driver_trips.php">Open</a>
+            <a class="btn" href="driver_available_trips.php">Open</a>
         </div>
 
         <!-- Manage Vehicle -->
         <div class="card">
             <div class="title">Manage Vehicle</div>
             <div class="desc">Update your vehicle details, documents, or photos.</div>
-            <a class="btn" href="driver_vehicle.php">Manage</a>
+            <a class="btn" href="add_vehicle.php">Manage</a>
         </div>
 
         <!-- Set Availability -->

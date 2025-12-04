@@ -1,8 +1,10 @@
 <?php
 session_start();
 
+// ---------------------------
+// CONNECT TO DB
+// ---------------------------
 $server = "127.0.0.1";
-
 $connectionOptions = [
     "Database" => "OSRH",
     "Uid" => "sa",
@@ -12,65 +14,79 @@ $connectionOptions = [
 ];
 
 $conn = sqlsrv_connect($server, $connectionOptions);
-
 if (!$conn) {
-    die("<pre>DATABASE ERROR:\n" . print_r(sqlsrv_errors(), true) . "</pre>");
+    $_SESSION['login_error'] = "Database connection failed.";
+    header("Location: login.php");
+    exit;
 }
 
+// ---------------------------
+// READ INPUT
+// ---------------------------
 $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
 
-$sql = "{ CALL sp_Login(?, ?) }";
-$params = [$username, $password];
+if ($username === '' || $password === '') {
+    $_SESSION['login_error'] = "Missing username or password.";
+    header("Location: login.php");
+    exit;
+}
 
+// ---------------------------
+// CALL sp_Login
+// ---------------------------
+$sql = "{ CALL sp_Login(?) }";
+$params = [$username];
 $stmt = sqlsrv_query($conn, $sql, $params);
 
 if ($stmt === false) {
-    die("<pre>SQL ERROR:\n" . print_r(sqlsrv_errors(), true) . "</pre>");
+    $_SESSION['login_error'] = "Server error while logging in.";
+    header("Location: login.php");
+    exit;
 }
 
 $user = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
 
-// If no result → credentials wrong
-if (!$user) {
-    header("Location: failed.php?error=Invalid+Credentials");
+// USER NOT FOUND
+if (!$user || $user['Success'] == 0) {
+    $_SESSION['login_error'] = "User Not found.";
+    header("Location: login.php");
     exit;
 }
 
-// ---------------------
-// STORE USER IN SESSION
-// ---------------------
+// ---------------------------
+// PASSWORD CHECK
+// ---------------------------
+$storedHash = $user['Password_Hash'];
+
+if (!password_verify($password, $storedHash)) {
+    $_SESSION['login_error'] = "Invalid username or password.";
+    header("Location: login.php");
+    exit;
+}
+
+// ---------------------------
+// SUCCESS LOGIN
+// ---------------------------
+session_regenerate_id(true);
 $_SESSION['logged_in'] = true;
-$_SESSION['user_id']   = $user['User_ID'] ?? null;
-$_SESSION['name']      = $user['First_Name'] ?? '';
-$_SESSION['type_raw']  = $user['Type_Name'] ?? '';
+$_SESSION['user_id']   = $user['User_ID'];
+$_SESSION['name']      = $user['First_Name'];
+$_SESSION['type']      = strtolower($user['Type_Name']);
 
-// normalize type (very important: trim + lowercase)
-$type = strtolower(trim($user['Type_Name'] ?? ''));
-
-// DEBUG (αν θες να δεις τι γυρνάει η SP, ξεκλείδωσε αυτά για 1 δοκιμή)
-// echo "<pre>"; var_dump($user, $type); echo "</pre>"; exit;
-
-switch ($type) {
-    case "passenger":
-        header("Location: passenger_success.php");
-        break;
-
+// REDIRECT BY ROLE
+switch ($_SESSION['type']) {
     case "driver":
         header("Location: driver_success.php");
         break;
-
     case "admin":
         header("Location: admin_success.php");
         break;
-
     case "operator":
         header("Location: operator_success.php");
         break;
-
     default:
-        // Αν έρθει κάτι περίεργο από τη SP
-        header("Location: failed.php?error=Unknown+Role+".urlencode($type));
+        header("Location: passenger_success.php");
         break;
 }
 

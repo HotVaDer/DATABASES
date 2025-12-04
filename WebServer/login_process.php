@@ -2,7 +2,7 @@
 session_start();
 
 // ---------------------------
-// DATABASE CONNECTION
+// CONNECT TO DB
 // ---------------------------
 $server = "127.0.0.1";
 $connectionOptions = [
@@ -15,68 +15,67 @@ $connectionOptions = [
 
 $conn = sqlsrv_connect($server, $connectionOptions);
 if (!$conn) {
-    die("<pre>Database connection failed.\n" . print_r(sqlsrv_errors(), true) . "</pre>");
+    $_SESSION['login_error'] = "Database connection failed.";
+    header("Location: login.php");
+    exit;
 }
 
 // ---------------------------
-// READ USER INPUT
+// READ INPUT
 // ---------------------------
 $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
 
-if (!$username || !$password) {
-    header("Location: failed.php?error=" . urlencode("Missing credentials."));
+if ($username === '' || $password === '') {
+    $_SESSION['login_error'] = "Missing username or password.";
+    header("Location: login.php");
     exit;
 }
 
 // ---------------------------
-// CALL sp_Login (returns ONLY hash + user fields)
+// CALL sp_Login
 // ---------------------------
 $sql = "{ CALL sp_Login(?) }";
 $params = [$username];
-
 $stmt = sqlsrv_query($conn, $sql, $params);
 
 if ($stmt === false) {
-    die("<pre>SQL ERROR:\n" . print_r(sqlsrv_errors(), true) . "</pre>");
+    $_SESSION['login_error'] = "Server error while logging in.";
+    header("Location: login.php");
+    exit;
 }
 
 $user = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC);
 
-// ---------------------------
-// CASE 1: Username not found
-// ---------------------------
-if (!$user) {
-    header("Location: failed.php?error=" . urlencode("Invalid username or password."));
+// USER NOT FOUND
+if (!$user || $user['Success'] == 0) {
+    $_SESSION['login_error'] = "User Not found.";
+    header("Location: login.php");
     exit;
 }
 
 // ---------------------------
-// EXTRACT FIELDS
+// PASSWORD CHECK
 // ---------------------------
-$storedHash = $user['Password_Hash'];   // This is bcrypt or argon hash
-$firstName  = $user['First_Name'];
-$type       = strtolower($user['Type_Name']);
-$userID     = $user['User_ID'];
+$storedHash = $user['Password_Hash'];
 
-// ---------------------------
-// CASE 2: Wrong password
-// ---------------------------
 if (!password_verify($password, $storedHash)) {
-    header("Location: failed.php?error=" . urlencode("Invalid username or password."));
+    $_SESSION['login_error'] = "Invalid username or password.";
+    header("Location: login.php");
     exit;
 }
 
 // ---------------------------
 // SUCCESS LOGIN
 // ---------------------------
+session_regenerate_id(true);
 $_SESSION['logged_in'] = true;
-$_SESSION['user_id']   = $userID;
-$_SESSION['name']      = $firstName;
-$_SESSION['type']      = $type;
+$_SESSION['user_id']   = $user['User_ID'];
+$_SESSION['name']      = $user['First_Name'];
+$_SESSION['type']      = strtolower($user['Type_Name']);
 
 // REDIRECT BY ROLE
-switch ($type) {
+switch ($_SESSION['type']) {
     case "driver":
         header("Location: driver_success.php");
         break;

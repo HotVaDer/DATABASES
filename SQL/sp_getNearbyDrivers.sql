@@ -1,9 +1,9 @@
-CREATE OR ALTER PROCEDURE sp_GetNearbyDrivers
+CREATE   PROCEDURE sp_GetNearbyDrivers
 (
-    @Latitude FLOAT,
+    @Latitude  FLOAT,
     @Longitude FLOAT,
-    @Service_Type_ID INT,
-    @MaxResults INT = 5
+    @MaxDistance FLOAT = 5000,  -- 5 km radius
+    @MaxResults  INT = 10
 )
 AS
 BEGIN
@@ -13,13 +13,17 @@ BEGIN
         geography::Point(@Latitude, @Longitude, 4326);
 
     SELECT TOP (@MaxResults)
-           V.License_Plate,
-           VL.Updated_At,
-           VL.GeoPoint.STDistance(@UserPoint) AS DistanceMeters
+        D.User_ID,
+        V.License_Plate,
+        VL.GeoPoint,
+        VL.Updated_At,
+        VL.GeoPoint.STDistance(@UserPoint) AS DistanceMeters
     FROM Vehicle_Location VL
     JOIN VEHICLE V ON V.License_Plate = VL.License_Plate
-    JOIN SERVICE_CATALOG SC ON SC.License_Plate = V.License_Plate
-    WHERE SC.Service_Type_ID = @Service_Type_ID
+    JOIN DRIVER D ON D.User_ID = V.User_ID
+    WHERE 
+        D.Status = 'approved'
+        AND V.Status = 'active'
+        AND VL.GeoPoint.STDistance(@UserPoint) <= @MaxDistance
     ORDER BY VL.GeoPoint.STDistance(@UserPoint);
 END;
-GO

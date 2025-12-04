@@ -1,7 +1,7 @@
-CREATE OR ALTER PROCEDURE sp_RequestTrip
+CREATE   PROCEDURE sp_RequestTrip
 (
     @User_ID            INT,
-    @Service_Type_Name  VARCHAR(50),
+    @Service_Type_ID    INT,
 
     @Start_Lat          FLOAT,
     @Start_Lon          FLOAT,
@@ -12,7 +12,6 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @Service_Type_ID INT;
     DECLARE @Trip_ID INT;
     DECLARE @ErrMsg VARCHAR(300);
     DECLARE @Start_Point GEOGRAPHY;
@@ -32,31 +31,29 @@ BEGIN
         END
 
         ------------------------------------------------------------
-        -- 2) Validate service type
+        -- 2) Validate service type ID
         ------------------------------------------------------------
-        SELECT @Service_Type_ID = ST.Service_Type_ID
-        FROM SERVICE_TYPE AS ST
-        WHERE ST.Service_Type_Name = @Service_Type_Name;
-
-        IF @Service_Type_ID IS NULL
+        IF NOT EXISTS (
+            SELECT 1 FROM SERVICE_TYPE WHERE Service_Type_ID = @Service_Type_ID
+        )
         BEGIN
             ROLLBACK TRAN;
-            SELECT 0 AS Success, 'Invalid service type.' AS Message;
+            SELECT 0 AS Success, 'Invalid service type ID.' AS Message;
             RETURN;
         END
 
         ------------------------------------------------------------
-        -- 3) Validate float coordinates
+        -- 3) Validate coordinates
         ------------------------------------------------------------
-        IF @Start_Lat IS NULL OR @Start_Lon IS NULL 
-           OR @End_Lat IS NULL OR @End_Lon IS NULL
+        IF @Start_Lat IS NULL OR @Start_Lon IS NULL
+            OR @End_Lat IS NULL OR @End_Lon IS NULL
         BEGIN
             ROLLBACK TRAN;
             SELECT 0 AS Success, 'Start and end coordinates are required.' AS Message;
             RETURN;
         END
 
-        -- Build GEOGRAPHY points
+        -- Build GEOGRAPHY
         SET @Start_Point = geography::Point(@Start_Lat, @Start_Lon, 4326);
         SET @End_Point   = geography::Point(@End_Lat,  @End_Lon,  4326);
 
@@ -117,4 +114,3 @@ BEGIN
 
     END CATCH;
 END;
-GO

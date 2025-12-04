@@ -80,7 +80,7 @@
     <form action="login_process.php" method="POST">
 
         <div class="field-group">
-            <label for="username">Username</label>
+            <label for="username">email</label>
             <input type="text" name="username" required>
         </div>
 
